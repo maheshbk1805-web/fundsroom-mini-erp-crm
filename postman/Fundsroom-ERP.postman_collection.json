@@ -1,0 +1,270 @@
+{
+  "info": {
+    "name": "Fundsroom Mini ERP + CRM Operations Portal",
+    "description": "Comprehensive Postman collection for Fundsroom Full Stack Developer Case Study",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@fundsroom.local\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Login - Sales",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"sales@fundsroom.local\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Login - Warehouse",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"warehouse@fundsroom.local\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Login - Accounts",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"accounts@fundsroom.local\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Customer CRM",
+      "item": [
+        {
+          "name": "List Customers (Search & Paginate)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/customers?page=1&limit=10&search="
+          }
+        },
+        {
+          "name": "Add Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Apex Distributors\",\n  \"mobile\": \"9822011223\",\n  \"email\": \"procure@apex.com\",\n  \"business_name\": \"Apex Industrial Supply\",\n  \"gst_number\": \"27AABCA1234F1Z9\",\n  \"customer_type\": \"Distributor\",\n  \"address\": \"MIDC Bhosari, Pune, MH\",\n  \"status\": \"Active\",\n  \"follow_up_date\": \"2026-09-20\",\n  \"notes\": \"Key wholesale buyer\"\n}"
+            },
+            "url": "{{baseUrl}}/customers"
+          }
+        },
+        {
+          "name": "Get Customer Detail & Follow-ups",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/customers/1"
+          }
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ananya Mehta\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"orders@ananyatraders.in\",\n  \"business_name\": \"Ananya Traders Private Ltd\",\n  \"gst_number\": \"27AAAAA0000A1Z5\",\n  \"customer_type\": \"Wholesale\",\n  \"address\": \"Pune, Maharashtra\",\n  \"status\": \"Active\",\n  \"follow_up_date\": \"2026-09-25\",\n  \"notes\": \"Updated account terms\"\n}"
+            },
+            "url": "{{baseUrl}}/customers/1"
+          }
+        },
+        {
+          "name": "Add Follow-up Note",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"Discussed bulk discount for next quarter delivery. Client agreed to send purchase order.\",\n  \"follow_up_date\": \"2026-09-22\"\n}"
+            },
+            "url": "{{baseUrl}}/customers/1/followups"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Products & Inventory",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/products?search="
+          }
+        },
+        {
+          "name": "Add Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Heavy Duty Angle Grinder\",\n  \"sku\": \"HAG-007\",\n  \"category\": \"Power Tools\",\n  \"unit_price\": 3450,\n  \"current_stock\": 25,\n  \"min_stock_alert\": 5,\n  \"warehouse_location\": \"Warehouse C, Rack 12\"\n}"
+            },
+            "url": "{{baseUrl}}/products"
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Industrial Fastener Set\",\n  \"sku\": \"IFS-001\",\n  \"category\": \"Hardware\",\n  \"unit_price\": 1300,\n  \"current_stock\": 48,\n  \"min_stock_alert\": 12,\n  \"warehouse_location\": \"Warehouse A, Bay 1\"\n}"
+            },
+            "url": "{{baseUrl}}/products/1"
+          }
+        },
+        {
+          "name": "List Stock Movement Log",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/stock-movements"
+          }
+        },
+        {
+          "name": "Record Manual Stock Movement",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"movement_type\": \"IN\",\n  \"quantity\": 20,\n  \"reason\": \"Received vendor shipment batch #9921\"\n}"
+            },
+            "url": "{{baseUrl}}/stock-movements"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Sales Challans",
+      "item": [
+        {
+          "name": "List Challans",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/challans"
+          }
+        },
+        {
+          "name": "Get Challan Detail (With Snapshot Items)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/challans/1"
+          }
+        },
+        {
+          "name": "Create Multi-Product Confirmed Challan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 1,\n  \"status\": \"Confirmed\",\n  \"items\": [\n    { \"product_id\": 1, \"quantity\": 2 },\n    { \"product_id\": 3, \"quantity\": 4 }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/challans"
+          }
+        },
+        {
+          "name": "Create Draft Challan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 2,\n  \"status\": \"Draft\",\n  \"items\": [\n    { \"product_id\": 2, \"quantity\": 3 }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/challans"
+          }
+        },
+        {
+          "name": "Confirm Draft Challan (Deduct Stock)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/challans/2/confirm"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Operations Dashboard",
+      "item": [
+        {
+          "name": "Get Overview Metrics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/dashboard"
+          }
+        }
+      ]
+    }
+  ]
+}
